@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:sys.attendance/app/ui/pages/auth/register.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+class Register extends StatefulWidget {
+  const Register({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
+  State<Register> createState() => _RegisterState();
 }
 
-class _LoginState extends State<Login> {
+class _RegisterState extends State<Register> {
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
 
@@ -18,10 +17,15 @@ class _LoginState extends State<Login> {
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        backgroundColor: Colors.redAccent,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.white),
+      ),
       body: Column(
         children: [
           Container(
-            height: height / 3,
+            height: height / 4,
             width: width,
             decoration: const BoxDecoration(
                 color: Colors.redAccent,
@@ -55,8 +59,17 @@ class _LoginState extends State<Login> {
               child: Column(
                 children: [
                   buildTextFormField(
-                      label: "Email",
+                      label: "Name",
                       icon: Icons.person,
+                      controller: email,
+                      validator: (data) {
+                        if (data == "") {
+                          return 'Please enter name';
+                        }
+                      }),
+                  buildTextFormField(
+                      label: "Email",
+                      icon: Icons.email,
                       controller: email,
                       validator: (data) {
                         if (data == "") {
@@ -91,20 +104,11 @@ class _LoginState extends State<Login> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20))),
                   child: Text(
-                    "Login",
+                    "Register",
                     style: TextStyle(fontSize: 20, color: Colors.white),
                   )),
             ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          TextButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Register()));
-              },
-              child: Text("Are you a new Employee ? Register here"))
+          )
         ],
       ),
     );
