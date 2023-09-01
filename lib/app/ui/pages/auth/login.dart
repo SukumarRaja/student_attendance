@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sys.attendance/app/provider/auth.dart';
 import 'package:sys.attendance/app/ui/pages/auth/register.dart';
 
 class Login extends StatefulWidget {
@@ -82,18 +84,29 @@ class _LoginState extends State<Login> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.redAccent,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20))),
-                  child: Text(
-                    "Login",
-                    style: TextStyle(fontSize: 20, color: Colors.white),
-                  )),
+            child: Consumer<AuthService>(
+              builder: (context, auth, child) {
+                return SizedBox(
+                  width: double.infinity,
+                  child: auth.isLoading
+                      ? Center(child: CircularProgressIndicator())
+                      : ElevatedButton(
+                          onPressed: () {
+                            auth.login(
+                                email: email.text.trim(),
+                                password: password.text.trim(),
+                                context: context);
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.redAccent,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20))),
+                          child: Text(
+                            "Login",
+                            style: TextStyle(fontSize: 20, color: Colors.white),
+                          )),
+                );
+              },
             ),
           ),
           SizedBox(

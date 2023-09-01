@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sys.attendance/app/provider/auth.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -58,15 +60,15 @@ class _RegisterState extends State<Register> {
               padding: const EdgeInsets.all(15.0),
               child: Column(
                 children: [
-                  buildTextFormField(
-                      label: "Name",
-                      icon: Icons.person,
-                      controller: email,
-                      validator: (data) {
-                        if (data == "") {
-                          return 'Please enter name';
-                        }
-                      }),
+                  // buildTextFormField(
+                  //     label: "Name",
+                  //     icon: Icons.person,
+                  //     controller: email,
+                  //     validator: (data) {
+                  //       if (data == "") {
+                  //         return 'Please enter name';
+                  //       }
+                  //     }),
                   buildTextFormField(
                       label: "Email",
                       icon: Icons.email,
@@ -95,18 +97,29 @@ class _RegisterState extends State<Register> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.redAccent,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20))),
-                  child: Text(
-                    "Register",
-                    style: TextStyle(fontSize: 20, color: Colors.white),
-                  )),
+            child: Consumer<AuthService>(
+              builder: (context, auth, child) {
+                return SizedBox(
+                  width: double.infinity,
+                  child: auth.isLoading
+                      ? Center(child: CircularProgressIndicator())
+                      : ElevatedButton(
+                          onPressed: () {
+                            auth.register(
+                                email: email.text.trim(),
+                                password: password.text.trim(),
+                                context: context);
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.redAccent,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20))),
+                          child: Text(
+                            "Register",
+                            style: TextStyle(fontSize: 20, color: Colors.white),
+                          )),
+                );
+              },
             ),
           )
         ],
