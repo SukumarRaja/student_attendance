@@ -13,19 +13,13 @@ class UserModel {
     required this.employeeId,
   });
 
-  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-        id: json["id"],
-        email: json["email"],
-        name: json["name"],
-        department: json["department"],
-        employeeId: json["employee_id"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "email": email,
-        "name": name,
-        "department": department,
-        "employee_id": employeeId,
-      };
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
+      id: json["id"],
+      email: json["email"],
+      name: json["name"],
+      department: json["department"],
+      employeeId: json["employee_id"],
+    );
+  }
 }

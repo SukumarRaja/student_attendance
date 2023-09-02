@@ -1,4 +1,5 @@
 class Tables {
-  static const employee = "employee";
+  static const employee = "employees";
   static const department = "departments";
+  static const attendance = "attendance";
 }

@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../data/models/database.dart';
+import 'database.dart';
 import '../utility/utility.dart';
 
 class AuthService extends ChangeNotifier {
@@ -27,18 +27,20 @@ class AuthService extends ChangeNotifier {
       final AuthResponse response =
           await client.auth.signUp(email: email, password: password);
 
-      if (response != null) {
-        await service.insertUser(email: email, id: response.user!.id);
-        Utility.showSnackBar(
-            message: "Successfully registered !",
-            context: context,
-            color: Colors.green);
-        await login(email: email, password: password, context: context);
-        Navigator.pop(context);
-        // setIsLoading = false;
-      }
+      print("user response ${response.user!.id}");
+      var inuse = await service.insertUser(email: email, id: response.user!.id);
+
+      print("insert User res ${inuse}");
+      Utility.showSnackBar(
+          message: "Successfully registered !",
+          context: context,
+          color: Colors.green);
+      await login(email: email, password: password, context: context);
+      Navigator.pop(context);
+      // setIsLoading = false;
     } catch (e) {
       setIsLoading = false;
+          print("exceptipn ${e}");
       Utility.showSnackBar(
           message: e.toString(), context: context, color: Colors.red);
     }

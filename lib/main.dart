@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'app/config/config.dart';
-import 'app/data/models/database.dart';
+import 'app/provider/attendance.dart';
+import 'app/provider/database.dart';
 import 'app/provider/auth.dart';
 import 'app/ui/pages/splash.dart';
 
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => AuthService()),
         ChangeNotifierProvider(create: (context) => DatabaseService()),
+        ChangeNotifierProvider(create: (context) => AttendanceService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
