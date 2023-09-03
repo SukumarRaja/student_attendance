@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import '../../attendance.dart';
 import '../../calender.dart';
 import '../../profile.dart';
@@ -25,11 +24,11 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: IndexedStack(
         index: currentIndex,
-        children: [Calender(), Attendance(), Profile()],
+        children: const [Calender(), Attendance(), Profile()],
       ),
       bottomNavigationBar: Container(
         height: 60,
-        margin: EdgeInsets.only(right: 12, left: 12, bottom: 12),
+        margin: const EdgeInsets.only(right: 12, left: 12, bottom: 12),
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(40),

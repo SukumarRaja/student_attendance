@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sys.attendance/app/provider/auth.dart';
+import '../../../provider/auth.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -22,7 +22,7 @@ class _RegisterState extends State<Register> {
       appBar: AppBar(
         backgroundColor: Colors.redAccent,
         elevation: 0,
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Column(
         children: [
@@ -92,7 +92,7 @@ class _RegisterState extends State<Register> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Padding(
@@ -102,7 +102,7 @@ class _RegisterState extends State<Register> {
                 return SizedBox(
                   width: double.infinity,
                   child: auth.isLoading
-                      ? Center(child: CircularProgressIndicator())
+                      ? const Center(child: CircularProgressIndicator())
                       : ElevatedButton(
                           onPressed: () {
                             auth.register(
@@ -114,7 +114,7 @@ class _RegisterState extends State<Register> {
                               backgroundColor: Colors.redAccent,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20))),
-                          child: Text(
+                          child: const Text(
                             "Register",
                             style: TextStyle(fontSize: 20, color: Colors.white),
                           )),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sys.attendance/app/provider/auth.dart';
-import 'package:sys.attendance/app/ui/pages/auth/register.dart';
+import '../../../provider/auth.dart';
+import 'register.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -79,7 +79,7 @@ class _LoginState extends State<Login> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Padding(
@@ -89,7 +89,7 @@ class _LoginState extends State<Login> {
                 return SizedBox(
                   width: double.infinity,
                   child: auth.isLoading
-                      ? Center(child: CircularProgressIndicator())
+                      ? const Center(child: CircularProgressIndicator())
                       : ElevatedButton(
                           onPressed: () {
                             auth.login(
@@ -101,7 +101,7 @@ class _LoginState extends State<Login> {
                               backgroundColor: Colors.redAccent,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20))),
-                          child: Text(
+                          child: const Text(
                             "Login",
                             style: TextStyle(fontSize: 20, color: Colors.white),
                           )),
@@ -109,15 +109,15 @@ class _LoginState extends State<Login> {
               },
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           TextButton(
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Register()));
+                    MaterialPageRoute(builder: (context) => const Register()));
               },
-              child: Text("Are you a new Employee ? Register here"))
+              child: const Text("Are you a new Employee ? Register here"))
         ],
       ),
     );

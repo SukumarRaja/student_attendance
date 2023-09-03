@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_month_year_picker/simple_month_year_picker.dart';
 import 'package:sys.attendance/app/data/models/attendance.dart';
 import '../../provider/attendance.dart';
+import '../widgets/attendance_card.dart';
 
 class Calender extends StatefulWidget {
   const Calender({super.key});
@@ -13,8 +14,6 @@ class Calender extends StatefulWidget {
 }
 
 class _CalenderState extends State<Calender> {
-
-
   @override
   Widget build(BuildContext context) {
     final attendance = Provider.of<AttendanceService>(context);
@@ -23,8 +22,8 @@ class _CalenderState extends State<Calender> {
         children: [
           Container(
             alignment: Alignment.centerLeft,
-            margin: EdgeInsets.only(left: 20, top: 60, bottom: 10),
-            child: Text(
+            margin: const EdgeInsets.only(left: 20, top: 60, bottom: 10),
+            child: const Text(
               "My Attendance",
               style: TextStyle(fontSize: 25),
             ),
@@ -34,7 +33,7 @@ class _CalenderState extends State<Calender> {
             children: [
               Text(
                 attendance.attendanceHistoryMonth,
-                style: TextStyle(fontSize: 25),
+                style: const TextStyle(fontSize: 25),
               ),
               OutlinedButton(
                   onPressed: () async {
@@ -45,7 +44,7 @@ class _CalenderState extends State<Calender> {
                         DateFormat("MMMM yyyy").format(selectedDate);
                     attendance.attendanceHistoryMonth = pickedMonth;
                   },
-                  child: Text("Pick a month"))
+                  child: const Text("Pick a month"))
             ],
           ),
           Expanded(
@@ -53,83 +52,25 @@ class _CalenderState extends State<Calender> {
                 future: attendance.getAttendanceHistory(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    if (snapshot.data!.length > 0) {
+                    if (snapshot.data!.isNotEmpty) {
                       return ListView.builder(
                           itemCount: snapshot.data!.length,
                           itemBuilder: (context, index) {
                             AttendanceModel model = snapshot.data![index];
-
-                            return Container(
-                              margin: EdgeInsets.only(
-                                  top: 12, bottom: 10, left: 20, right: 20),
-                              height: 150,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.black26,
-                                      blurRadius: 10,
-                                      offset: Offset(2, 2))
-                                ],
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      margin: EdgeInsets.only(),
-                                      decoration: BoxDecoration(
-                                          color: Colors.redAccent,
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
-                                      child: Text(
-                                        // DateFormat("EE \n dd")
-                                        //     .format(model.createdAt),
-                                        "",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          "Check in",
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.black54),
-                                        ),
-                                        SizedBox(
-                                          width: 80,
-                                          child: Divider(),
-                                        ),
-                                        Text(
-                                          model.checkIn.toString() ?? "--/--",
-                                          style: TextStyle(fontSize: 25),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 15,
-                                  )
-                                ],
-                              ),
+                            return AttendanceCard(
+                              date: model.createdAt,
+                              checkIn: model.checkIn,
+                              checkOut: model.checkOut,
                             );
                           });
                     } else {
-                      return Text(
-                        "No Data Avilable",
+                      return const Text(
+                        "No Data Available",
                         style: TextStyle(fontSize: 25),
                       );
                     }
                   }
-                  return LinearProgressIndicator(
+                  return const LinearProgressIndicator(
                     backgroundColor: Colors.white,
                     color: Colors.grey,
                   );

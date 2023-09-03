@@ -11,6 +11,6 @@ class Splash extends StatelessWidget {
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthService>(context);
     // auth.logout();
-    return auth.currentUser == null ? Login() : Home();
+    return auth.currentUser == null ? const Login() : const Home();
   }
 }

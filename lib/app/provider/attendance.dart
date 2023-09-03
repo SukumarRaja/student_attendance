@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:sys.attendance/app/provider/location.dart';
 import '../config/database_tables.dart';
 import '../data/models/attendance.dart';
 import '../utility/utility.dart';
@@ -46,28 +47,41 @@ class AttendanceService extends ChangeNotifier {
   }
 
   markAttendance(BuildContext context) async {
-    if (attendanceModel?.checkIn == null) {
-      await client.from(Tables.attendance).insert({
-        'employee_id': client.auth.currentUser!.id,
-        'date': todayDate,
-        'check_in': DateFormat("HH:mm").format(DateTime.now()),
-        'check_out': null
-      });
-      Utility.showSnackBar(
-          message: "Successfully Check In !",
-          context: context,
-          color: Colors.green);
-    } else if (attendanceModel!.checkOut == null) {
-      await client
-          .from(Tables.attendance)
-          .update({'check_out': DateFormat("HH:mm").format(DateTime.now())})
-          .eq('employee_id', client.auth.currentUser!.id)
-          .eq('date', todayDate);
+    Map? getLocation =
+        await LocationService().initializeAndGetLocation(context);
+
+    if (getLocation != null) {
+      if (attendanceModel?.checkIn == null) {
+        await client.from(Tables.attendance).insert({
+          'employee_id': client.auth.currentUser!.id,
+          'date': todayDate,
+          'check_in': DateFormat("HH:mm").format(DateTime.now()),
+          'check_out': "",
+          'check_in_location': getLocation
+        });
+        Utility.showSnackBar(
+            message: "Successfully Check In !",
+            context: context,
+            color: Colors.green);
+      } else if (attendanceModel!.checkOut == "") {
+        await client
+            .from(Tables.attendance)
+            .update({
+              'check_out': DateFormat("HH:mm").format(DateTime.now()),
+              'check_out_location': getLocation
+            })
+            .eq('employee_id', client.auth.currentUser!.id)
+            .eq('date', todayDate);
+      } else {
+        Utility.showSnackBar(
+            message: "You have already checked out today !", context: context);
+      }
+      getTodayAttendance();
     } else {
       Utility.showSnackBar(
-          message: "You have already checked out today !", context: context);
+          message: "Not able to get your location", context: context);
+      getTodayAttendance();
     }
-    getTodayAttendance();
   }
 
   Future<List<AttendanceModel>> getAttendanceHistory() async {
@@ -75,9 +89,8 @@ class AttendanceService extends ChangeNotifier {
         .from(Tables.attendance)
         .select()
         .eq('employee_id', client.auth.currentUser!.id)
-        .textSearch('date', "$attendanceHistoryMonth", config: 'english')
+        .textSearch('date', "'$attendanceHistoryMonth'", config: 'english')
         .order('created_at', ascending: false);
-    print("history ${res}");
     return res.map((e) => AttendanceModel.fromJson(e)).toList();
   }
 }

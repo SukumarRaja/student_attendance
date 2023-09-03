@@ -27,14 +27,14 @@ class _AttendanceState extends State<Attendance> {
     final attendance = Provider.of<AttendanceService>(context);
     return Scaffold(
         body: SingleChildScrollView(
-      padding: EdgeInsets.all(20),
-      physics: BouncingScrollPhysics(),
+      padding: const EdgeInsets.all(20),
+      physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
           Container(
             alignment: Alignment.centerLeft,
-            margin: EdgeInsets.only(top: 32),
-            child: Text(
+            margin: const EdgeInsets.only(top: 32),
+            child: const Text(
               "Welcome",
               style: TextStyle(color: Colors.black54, fontSize: 30),
             ),
@@ -43,18 +43,17 @@ class _AttendanceState extends State<Attendance> {
             return FutureBuilder(
                 future: service.getUserData(),
                 builder: (context, snapshot) {
-                  print("is data ${snapshot.hasData}");
                   if (snapshot.hasData) {
                     UserModel user = snapshot.data!;
                     return Container(
                       alignment: Alignment.centerLeft,
                       child: Text(
                         user.name != "" ? user.name : "#${user.employeeId}",
-                        style: TextStyle(fontSize: 25),
+                        style: const TextStyle(fontSize: 25),
                       ),
                     );
                   }
-                  return SizedBox(
+                  return const SizedBox(
                     width: 60,
                     child: LinearProgressIndicator(),
                   );
@@ -62,8 +61,8 @@ class _AttendanceState extends State<Attendance> {
           }),
           Container(
             alignment: Alignment.centerLeft,
-            margin: EdgeInsets.only(top: 12, bottom: 32),
-            child: Text(
+            margin: const EdgeInsets.only(top: 12, bottom: 32),
+            child: const Text(
               "Today Status",
               style: TextStyle(color: Colors.black54, fontSize: 20),
             ),
@@ -71,10 +70,10 @@ class _AttendanceState extends State<Attendance> {
           Container(
             height: 150,
             alignment: Alignment.centerLeft,
-            margin: EdgeInsets.only(top: 12, bottom: 32),
+            margin: const EdgeInsets.only(top: 12, bottom: 32),
             decoration: BoxDecoration(
                 color: Colors.white,
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                       color: Colors.black26,
                       blurRadius: 10,
@@ -90,17 +89,17 @@ class _AttendanceState extends State<Attendance> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         "Check In",
                         style: TextStyle(fontSize: 20, color: Colors.black54),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 80,
                         child: Divider(),
                       ),
                       Text(
                         attendance.attendanceModel?.checkIn ?? "--/--",
-                        style: TextStyle(fontSize: 25),
+                        style: const TextStyle(fontSize: 25),
                       )
                     ],
                   ),
@@ -110,17 +109,17 @@ class _AttendanceState extends State<Attendance> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         "Check Out",
                         style: TextStyle(fontSize: 20, color: Colors.black54),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 80,
                         child: Divider(),
                       ),
                       Text(
                         attendance.attendanceModel?.checkOut ?? "--/--",
-                        style: TextStyle(fontSize: 25),
+                        style: const TextStyle(fontSize: 25),
                       )
                     ],
                   ),
@@ -132,23 +131,23 @@ class _AttendanceState extends State<Attendance> {
             alignment: Alignment.centerLeft,
             child: Text(
               DateFormat("dd MMMM yyyy").format(DateTime.now()),
-              style: TextStyle(fontSize: 20),
+              style: const TextStyle(fontSize: 20),
             ),
           ),
           StreamBuilder(
-            stream: Stream.periodic(Duration(seconds: 1)),
+            stream: Stream.periodic(const Duration(seconds: 1)),
             builder: (context, snapshot) {
               return Container(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   DateFormat("hh:mm:ss a").format(DateTime.now()),
-                  style: TextStyle(fontSize: 15, color: Colors.black54),
+                  style: const TextStyle(fontSize: 15, color: Colors.black54),
                 ),
               );
             },
           ),
           Container(
-            margin: EdgeInsets.only(top: 25),
+            margin: const EdgeInsets.only(top: 25),
             child: Builder(
               builder: (context) {
                 return ActionSlider.standard(
@@ -158,7 +157,7 @@ class _AttendanceState extends State<Attendance> {
                   backgroundColor: Colors.white,
                   toggleColor: Colors.redAccent,
                   iconAlignment: Alignment.centerRight,
-                  loadingIcon: Center(
+                  loadingIcon: const Center(
                       child: SizedBox(
                     width: 24.0,
                     height: 24.0,
